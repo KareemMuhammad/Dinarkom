@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1009106485208",
+    "project_id": "dinarkom-55fdf",
+    "storage_bucket": "dinarkom-55fdf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009106485208:android:fd7d423065b23446de3cad",
+        "android_client_info": {
+          "package_name": "com.outofthebox.dinarkom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009106485208-u83homhsp7q97c86drvat46v5515ipk9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgyiUsZJgKnkV9z0GvWJLlOrUQ32PdejE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009106485208-u83homhsp7q97c86drvat46v5515ipk9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
