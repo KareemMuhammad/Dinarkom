@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../nav_screens/terms_screen.dart';
+
 class WinnersScreen extends StatefulWidget {
   const WinnersScreen({Key? key}) : super(key: key);
 
@@ -31,11 +33,11 @@ class _WinnersScreenState extends State<WinnersScreen> {
         child: SingleChildScrollView(
           child: Column(crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-                  SizedBox(height: SizeConfig.screenHeight! * 0.02,),
+
                   Text('${Utils.getTranslatedText(context,'winners')} $_currentMonth',
                             style: const TextStyle(color: white,fontSize: 25,fontFamily: 'Qadishia',),),
 
-              SizedBox(height: SizeConfig.screenHeight! * 0.02,),
+              SizedBox(height: SizeConfig.screenHeight! * 0.05,),
                   BlocBuilder<WinnersCubit,WinnersState>(
                     builder: (context,state) {
                       return state is WinnersLoaded ?
@@ -63,7 +65,18 @@ class _WinnersScreenState extends State<WinnersScreen> {
                               ]
                             ),
                           ),
-                          Container(
+                         state.winnersList!.isEmpty?
+                         Center(child: Column(
+                           children: [
+                             SizedBox(height: SizeConfig.blockSizeVertical! * 2,),
+                             Image.asset('assets/empty.png',
+                               height: SizeConfig.blockSizeVertical! * 25,
+                               width: SizeConfig.blockSizeVertical! * 25,),
+                             SizedBox(height: SizeConfig.blockSizeVertical! * 1,),
+                             footer('${Utils.getTranslatedText(context,'winners_hint')}'),
+                           ],
+                         ))
+                         :Container(
                             color: greyOpacity,
                             margin: const EdgeInsets.symmetric(horizontal: 20),
                             child: Table(
@@ -95,7 +108,7 @@ class _WinnersScreenState extends State<WinnersScreen> {
                     }
                   ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 25),
+                padding: EdgeInsets.symmetric(horizontal: 15.0,vertical: SizeConfig.blockSizeVertical! * 5,),
                 child: Text('${Utils.getTranslatedText(context,'winners_note')}'
                   ,style: const TextStyle(color: white,fontSize: 15,),textAlign: TextAlign.center,),
               ),

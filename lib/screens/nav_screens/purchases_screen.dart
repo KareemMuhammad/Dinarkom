@@ -1,3 +1,5 @@
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dinarkom/model/purchase_model.dart';
 import 'package:dinarkom/repositories/payment_repo.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +16,18 @@ class PurchasesScreen extends StatefulWidget {
 
 class _PurchasesScreenState extends State<PurchasesScreen> {
 
-  late Future<PurchaseModel> getPurchases;
+  //late Future<PurchaseModel> getPurchases;
+  late List<Purchase> purchaseList = [];
 
   @override
   void initState() {
     debugPrint(widget.token);
-    getPurchases = PaymentRepo().getMyPurchases(widget.token);
+    Future.microtask(() async{
+     PurchaseModel model = await PaymentRepo().getMyPurchases(widget.token);
+     purchaseList = model.purchase!;
+     if(mounted) setState(() {});
+    });
+   // getPurchases = PaymentRepo().getMyPurchases(widget.token);
     super.initState();
   }
 
@@ -36,32 +44,41 @@ class _PurchasesScreenState extends State<PurchasesScreen> {
       body: RefreshIndicator(
         onRefresh: () async{
           await Future.delayed(const Duration(seconds: 1));
+          PurchaseModel model = await PaymentRepo().getMyPurchases(widget.token);
           setState(() {
-            getPurchases = PaymentRepo().getMyPurchases(widget.token);
+        //    getPurchases = PaymentRepo().getMyPurchases(widget.token);
+
+            purchaseList = model.purchase!;
           });
         },
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: FutureBuilder<PurchaseModel>(
-            future:  getPurchases,
-            builder: (BuildContext context, AsyncSnapshot<PurchaseModel> snapshot) {
-              return snapshot.data != null && snapshot.data!.purchase!.isNotEmpty?
+          child: purchaseList.isNotEmpty?
               ListView.builder(
-                itemCount: snapshot.data!.purchase!.length,
+                itemCount: purchaseList.length,
                   padding: const EdgeInsets.all(8),
                   itemBuilder: (ctx,index){
-                    var pure = snapshot.data!.purchase![index];
+                    var pure = purchaseList[index];
                  return Card(
                    elevation: 3,
                    color: greyOpacity,
                    child: ListTile(
-                     title: header(pure.knetStatuse == 1 ? 'Success' : 'Failed'),
-                     subtitle: footer(pure.orderNum.toString()),
+                     leading: CachedNetworkImage(imageUrl: pure.image!,),
+                     title: footer(pure.orderNum.toString()),
+                     subtitle: footer(pure.orderDate!),
                    ),
                  );
-              }) : Center(child: footer('You didn\'t do any purchases yet'));
-          },
-          ),
+              }) : Center(child: Column(
+                children: [
+                  SizedBox(height: SizeConfig.blockSizeVertical! * 2,),
+                  Image.asset('assets/empty.png',
+                    height: SizeConfig.blockSizeVertical! * 25,
+                    width: SizeConfig.blockSizeVertical! * 25,),
+                  SizedBox(height: SizeConfig.blockSizeVertical! * 1,),
+                  footer('${Utils.getTranslatedText(context,'purchases_hint')}'),
+                ],
+              )),
+
         ),
       ),
     );

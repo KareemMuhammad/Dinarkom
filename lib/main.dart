@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:dinarkom/blocs/about_bloc/about_cubit.dart';
 import 'package:dinarkom/blocs/ads_bloc/ads_cubit.dart';
 import 'package:dinarkom/blocs/bar_bloc/bar_cubit.dart';
@@ -15,12 +16,14 @@ import 'package:dinarkom/repositories/winners_repo.dart';
 import 'package:dinarkom/screens/auth/splash/language_splash_screen.dart';
 import 'package:dinarkom/screens/auth/splash/main_splash_screen.dart';
 import 'package:dinarkom/service/about_service.dart';
+import 'package:dinarkom/service/user_service.dart';
+import 'package:dinarkom/utils/constants.dart';
 import 'package:dinarkom/utils/language_delegate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'blocs/verification_bloc/verify_cubit.dart';
+import 'package:workmanager/workmanager.dart';
 import 'widgets/helpers/shared_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,10 +39,40 @@ void main() async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
   langCode = prefs.getString('lang');
   userToken = prefs.getString('authToken');
+
+  await Workmanager().initialize(
+      callbackDispatcher,
+      isInDebugMode: false
+  );
+
+  await Workmanager().registerPeriodicTask(
+    '1',
+    'userNotification',
+    frequency: const Duration(minutes: 15),
+  );
+
   runApp(
     const MyApp(),
   );
 }
+
+void callbackDispatcher(){
+  Workmanager().executeTask((task, inputData) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userToken = prefs.getString('authToken');
+    if(userToken != null) {
+      var res =  await UserHttpService().notificationService(userToken!);
+      if(res.statusCode == 200) {
+        if(jsonDecode(res.body)['message'] != null) {
+          await Utils.showNormalNotification(jsonDecode(res.body)['message']);
+          debugPrint(jsonDecode(res.body).toString());
+        }
+      }
+    }
+    return Future.value(true);
+  });
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -49,9 +82,6 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => BarCubit(),
-        ),
-        BlocProvider(
-          create: (context) => VerifyCubit(),
         ),
         BlocProvider(
           create: (context) => AboutCubit(aboutService: AboutService()),
@@ -79,7 +109,8 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: BlocBuilder<LocaleCubit,LocaleState>(
-          buildWhen: (previousState, currentState) => previousState != currentState,
+          buildWhen: (previousState, currentState) =>
+          previousState != currentState,
         builder: (context,state) {
            return MaterialApp(
              debugShowCheckedModeBanner: false,

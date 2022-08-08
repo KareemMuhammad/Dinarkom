@@ -1,4 +1,3 @@
-import 'package:dinarkom/utils/constants.dart';
 import 'package:flutter/foundation.dart';
 
 class WinnersModel{
@@ -19,7 +18,7 @@ class WinnersModel{
       imageId: json['imgID'] as int,
       userId: json['userID'] as int,
       orderId: json['orderID'] as int,
-      prize: json['prize'] as String,
+      prize: json['prize'] == null ? '0' : json['prize'] as String,
       winnerName: json['name'] as String,
     );
   }

@@ -10,8 +10,8 @@ class LoginCubit extends Cubit<LoginState>{
   final UserRepository? userRepository;
   LoginCubit({this.userRepository}) : super(LoginInitial());
 
-  String? currentToken;
-  AppUser? currentUser;
+  String? currentToken = '';
+  AppUser? currentUser = AppUser();
 
   AppUser get getUser => currentUser!;
   String get getToken => currentToken!;
@@ -47,6 +47,9 @@ class LoginCubit extends Cubit<LoginState>{
       debugPrint('name = ' + responseModel.appUser!.name!);
       currentUser = responseModel.appUser;
       currentToken = responseModel.appUser!.token;
+    }else{
+      currentUser = AppUser();
+      currentToken = '';
     }
   }
 

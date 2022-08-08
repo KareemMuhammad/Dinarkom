@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:dinarkom/model/ads_model.dart';
 import 'package:dinarkom/service/ads_service.dart';
-import 'package:dinarkom/utils/constants.dart';
 import 'package:http/http.dart';
 
 class AdsRepo{

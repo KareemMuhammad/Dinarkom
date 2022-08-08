@@ -30,7 +30,7 @@ class AboutService extends BaseAPI{
       String subject,String message)async{
     try {
 
-      Response response = await post(Uri.parse(super.paymentCheckPath +
+      Response response = await post(Uri.parse(super.contact +
           'name=$name&' + 'email=$email&' + 'subject=$subject&' +
           'message=$message'), headers: super.headers);
       return response;

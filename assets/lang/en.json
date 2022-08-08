@@ -58,7 +58,7 @@
   "principle_header": "Principle",
   "agree": "Agree",
   "terms_title": "Terms and Conditions",
-  "terms": "Dear DINARKOM Customer:\nThe following Terms of Service (\"TOS\") is a legal agreement between you or the employer or other entity on whose behalf you are entering into this agreement (\"you\" or \"Customer\") and DINARKOM (as such term is defined in Part V Section 24 below) and sets forth the rights and obligations with respect to any Content licensed by you.\nPlease revisit this TOS when you purchase any Content licenses. DINARKOM reserves the right to modify the TOS at any time in its sole discretion. Prior to such changes becoming effective, DINARKOM will use reasonable efforts to notify you of any such change. Such notice may be made by email to the email address on file in your DINARKOM account, an announcement on this page, your login page, and/or by other means. Modifications to this TOS will only apply to prospective purchases (including any automated renewals). By licensing Content following any such modifications, you agree to be bound to the TOS as modified.",
+  "terms": "Dear Dinarkoom Customer:\nThe following Terms of Service (\"TOS\") is a legal agreement between you or the employer or other entity on whose behalf you are entering into this agreement (\"you\" or \"Customer\") and DINARKOM (as such term is defined in Part V Section 24 below) and sets forth the rights and obligations with respect to any Content licensed by you.\nPlease revisit this TOS when you purchase any Content licenses. DINARKOM reserves the right to modify the TOS at any time in its sole discretion. Prior to such changes becoming effective, DINARKOM will use reasonable efforts to notify you of any such change. Such notice may be made by email to the email address on file in your DINARKOM account, an announcement on this page, your login page, and/or by other means. Modifications to this TOS will only apply to prospective purchases (including any automated renewals). By licensing Content following any such modifications, you agree to be bound to the TOS as modified.",
   "account": "My Account",
   "home": "Home Page",
   "relevant": "Add Relevant",
@@ -66,5 +66,14 @@
   "message": "Message",
   "relation": "Relation",
   "update": "Update",
-  "payment": "Choose who will pay"
+  "payment": "Choose who will pay",
+  "delete_account": "Delete Account",
+  "delete_hint": "are you sure,deleting your account will erase all your data?",
+  "relevant_hint": "You didn't add any relevant yet",
+  "purchases_hint": "You didn't do any purchases yet",
+  "winners_hint": "There are no winners yet",
+  "checkout": "Checkout",
+  "error_buy": "You Cannot buy this photo again",
+  "relevant_added": "Your relevant has been added",
+  "invoice_hint":"The invoice has been sent to your email"
 }

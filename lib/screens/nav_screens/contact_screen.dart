@@ -1,5 +1,6 @@
 import 'package:dinarkom/service/about_service.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/constants.dart';
 import '../../utils/language_delegate.dart';
@@ -33,7 +34,7 @@ class _ContactScreenState extends State<ContactScreen> {
             Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ListView(padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical! * 8),
+                  child: ListView(padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical! * 5.5),
                     children: [
 
                       Align(
@@ -307,7 +308,27 @@ class _ContactScreenState extends State<ContactScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 25,),
+            SizedBox(height: SizeConfig.blockSizeVertical! * 4,),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  onPressed: ()async{
+                    await launch('https://www.whatsapp.com/');
+                  }, icon: const Icon(Icons.whatsapp),
+                  iconSize: SizeConfig.blockSizeVertical! * 3,color: white,),
+                IconButton(
+                  onPressed: ()async{
+                    await launch('https://www.gmail.com/');
+                  }, icon: const Icon(Icons.email),
+                  iconSize: SizeConfig.blockSizeVertical! * 3,color: white,),
+                IconButton(
+                  onPressed: ()async{
+                   await launch('https://www.facebook.com/');
+                  }, icon: const Icon(Icons.facebook),
+                  iconSize: SizeConfig.blockSizeVertical! * 3,color: white,),
+              ],
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical! * 1.5,),
           ],
         ),
       ),

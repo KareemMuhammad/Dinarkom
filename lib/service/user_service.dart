@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dinarkom/service/base_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
@@ -30,6 +32,7 @@ class UserHttpService extends BaseAPI{
           + 'email=$email&' + 'civilID=$nationalId&' + 'phone=$phone&' +
           'anotherPhone=$anotherPhone&' + 'password=$password&'
           + 'password_confirmation=$confirmPass'));
+      debugPrint(jsonDecode(response.body).toString());
       return response;
     }catch(e){
       debugPrint(e.toString());
@@ -94,6 +97,20 @@ class UserHttpService extends BaseAPI{
     }
   }
 
+  Future<Response> deleteAccount(String token)async{
+    try {
+
+      Response response = await post(Uri.parse(super.deleteAccPath +
+          'auth_token=$token'),
+          headers: super.headers);
+
+      return response;
+    }catch(e){
+      debugPrint(e.toString());
+      return Response('', 404);
+    }
+  }
+
   Future<Response> addRelevant(String name,String token,
       String civilId,String relation)async{
     try {
@@ -101,6 +118,7 @@ class UserHttpService extends BaseAPI{
       Response response = await post(Uri.parse(super.addRelativePath +
           'name=$name&' + 'auth_token=$token&' + 'civilId=$civilId&' +
           'relation=$relation'), headers: super.headers);
+    //  debugPrint(jsonDecode(response.body));
       return response;
     }catch(e){
       debugPrint(e.toString());
@@ -112,7 +130,7 @@ class UserHttpService extends BaseAPI{
     try {
 
       Response response = await post(Uri.parse(super.getRelativesPath +
-          'auth_token=$token&'),
+          'auth_token=$token'),
           headers: super.headers);
       return response;
     }catch(e){
@@ -129,6 +147,19 @@ class UserHttpService extends BaseAPI{
           'auth_token=$token&' + 'name=$name&' + 'auth_token=$token&'
           + 'civilId=$civilId&' + 'relation=$relation&' +
           'relativeId=$relativeId'), headers: super.headers);
+      return response;
+    }catch(e){
+      debugPrint(e.toString());
+      return Response('', 404);
+    }
+  }
+
+  Future<Response> notificationService(String token)async{
+    try {
+
+      Response response = await get(Uri.parse(super.notificationPath +
+          'auth_token=$token'),
+          headers: super.headers);
       return response;
     }catch(e){
       debugPrint(e.toString());

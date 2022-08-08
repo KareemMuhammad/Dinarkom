@@ -16,6 +16,8 @@ class BaseAPI{
   var updateRelativePath = base + '/updateRelative?';
   var resetPassword = base + '/sendMail?';
   var getUserById = base + '/getUserById?';
+  var deleteAccPath = base + '/deleteAccount?';
   var purchase = base + '/purchase?';
-  var contact = base + '/contact';
+  var contact = base + '/contact?';
+  var notificationPath = base + '/notifications?';
 }

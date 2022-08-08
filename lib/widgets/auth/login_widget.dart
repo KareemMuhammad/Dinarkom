@@ -31,13 +31,13 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     final LoginCubit loginCubit = BlocProvider.of<LoginCubit>(context);
-    return BlocConsumer<LoginCubit,LoginState>(
+      return BlocConsumer<LoginCubit,LoginState>(
         listener: (ctx,state){
           if(state is LoginFailed){
             Utils.showSnack('', state.message, context, black);
           }else if (state is LoginSuccessful){
             loginCubit.getCurrentUser(state.appUser.token!);
-            Navigator.push(context,
+            Navigator.pushReplacement(context,
               PageTransition(
                   type: PageTransitionType.rightToLeft,
                   duration: const Duration(milliseconds: 400),

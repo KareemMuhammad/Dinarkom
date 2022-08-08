@@ -1,7 +1,8 @@
 import 'dart:async';
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import '../../utils/constants.dart';
 import '../../utils/shared.dart';
 
 class KeyNetScreen extends StatefulWidget {
@@ -29,7 +30,7 @@ class _KeyNetScreenState extends State<KeyNetScreen> {
           },
         ),
         backgroundColor: white,
-        title: header('Checkout'),
+        title: header('${Utils.getTranslatedText(context, 'checkout')}'),
       ),
       body: Builder(builder: (BuildContext context) {
         return widget.url == 'You Cannot buy this photo again!'?
@@ -42,19 +43,18 @@ class _KeyNetScreenState extends State<KeyNetScreen> {
             _controller.complete(webViewController);
           },
           javascriptMode: JavascriptMode.unrestricted,
-          onPageFinished: (_) async{
-          var control = await _controller.future;
-          control.currentUrl().then(
-                  (url) {
-                if (url!.contains("NOT CAPTURED")) {
-                  control.clearCache();
+          onPageFinished: (url) async{
+                if (url.contains("result=CAPTURED")) {
+               //   log('success ' + url.toString());
+                  await Utils.showSnack('', '${Utils.getTranslatedText(context, 'invoice_hint')}', context, Colors.black);
                   Navigator.pop(context);
+                }else{
+                  log('failed ' + url.toString());
                 }
               },
             );
           },
-        );
-      }),
+        )
     );
   }
 

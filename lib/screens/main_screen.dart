@@ -5,15 +5,14 @@ import 'package:dinarkom/blocs/language_bloc/locale_cubit.dart';
 import 'package:dinarkom/screens/bar_screens/winners_screen.dart';
 import 'package:dinarkom/screens/nav_screens/about_us_screen.dart';
 import 'package:dinarkom/screens/nav_screens/contact_screen.dart';
-import 'package:dinarkom/screens/nav_screens/purchases_screen.dart';
 import 'package:dinarkom/utils/constants.dart';
 import 'package:dinarkom/utils/language_delegate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import '../blocs/login_bloc/login_cubit.dart';
 import '../blocs/login_bloc/login_state.dart';
 import '../widgets/dialogs/second_language_sheet.dart';
-import 'auth/login_screen.dart';
 import 'bar_screens/home_screen.dart';
 import 'bar_screens/account_screen.dart';
 import 'package:dinarkom/utils/shared.dart';
@@ -26,6 +25,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String _currentMonth = DateFormat('MMMM', AppLocale.of(context).currentCode).format(DateTime.now()).toString();
     final PageController myPage = PageController(initialPage: 2);
     final BarCubit barCubit = BlocProvider.of<BarCubit>(context);
     final LocaleCubit langCubit = BlocProvider.of<LocaleCubit>(context);
@@ -44,7 +44,7 @@ class MainScreen extends StatelessWidget {
           ) ,
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            drawer: _customDrawer(langCubit,barCubit,myPage,loginCubit),
+            drawer: _customDrawer(langCubit,barCubit,myPage,loginCubit,_currentMonth),
             body: Stack(
               children: [
                      PageView(
@@ -67,7 +67,7 @@ class MainScreen extends StatelessWidget {
   }
 
   Widget _customDrawer(LocaleCubit localeCubit,BarCubit barCubit,
-      PageController myPage,LoginCubit loginCubit){
+      PageController myPage,LoginCubit loginCubit,String currentMonth){
     return SafeArea(
       child: BlocBuilder<LoginCubit,LoginState>(
         builder: (context,state) {
@@ -85,7 +85,7 @@ class MainScreen extends StatelessWidget {
                       title: Text(
                           state is LoginSuccessful?
                           '${Utils.getTranslatedText(context,'welcome')?.split(' ')[0]}  ${state.appUser.name}':
-                          loginCubit.currentUser != null ?
+                          loginCubit.currentUser!.id != null ?
                           '${Utils.getTranslatedText(context,'welcome')?.split(' ')[0]} ${loginCubit.currentUser!.name ?? 'Guest'}'
                           : '${Utils.getTranslatedText(context,'welcome')?.split(' ')[0]} Guest',
                                   style: TextStyle(fontSize: SizeConfig.blockSizeVertical! * 2.1,
@@ -158,7 +158,7 @@ class MainScreen extends StatelessWidget {
                     ListTile(
                       trailing: const Icon(Icons.arrow_forward_ios,color: white,size: 19,),
                       leading: Icon(FontAwesomeIcons.wallet,size: SizeConfig.blockSizeVertical! * 2.2,color: white,),
-                      title: Text(Utils.getTranslatedText(context,'winners')!.split(' ')[0],
+                      title: Text('${Utils.getTranslatedText(context,'winners')} $currentMonth',
                         style: TextStyle(
                           fontSize: SizeConfig.blockSizeVertical! * 2.1,
                         color: white,
@@ -173,40 +173,6 @@ class MainScreen extends StatelessWidget {
                               duration: const Duration(
                                   milliseconds: 300),
                               child: const WinnersScreen()),);
-                      },
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child:  Divider(height: 1,color: white,),
-                    ),
-                    ListTile(
-                      trailing: const Icon(Icons.arrow_forward_ios,color: white,size: 19,),
-                      leading: Icon(Icons.shopping_bag_outlined,size: SizeConfig.blockSizeVertical! * 2.2,color: white,),
-                      title:  Text('${Utils.getTranslatedText(context,'orders')}',
-                        style: TextStyle(
-                          fontSize: SizeConfig.blockSizeVertical! * 2.1,
-                          fontFamily: 'Qadishia',
-                          color: white,
-                        ),),
-                      onTap: (){
-                        if(loginCubit.currentUser != null) {
-                          Navigator.pop(context);
-                          Navigator.push(context,
-                              PageTransition(
-                                type: PageTransitionType.rightToLeft,
-                                duration: const Duration(milliseconds: 400),
-                                child: PurchasesScreen(
-                                  token: loginCubit.currentUser!.token ??
-                                      '',),));
-                        }else{
-                          Navigator.pushReplacement(context,
-                            PageTransition(
-                                type: PageTransitionType
-                                    .rightToLeft,
-                                duration: const Duration(
-                                    milliseconds: 300),
-                                child: const LoginScreen()),);
-                        }
                       },
                     ),
                     const Padding(
@@ -264,33 +230,7 @@ class MainScreen extends StatelessWidget {
                           child: Image.asset('assets/empty_logo.png',height: SizeConfig.blockSizeVertical! * 10,
                             width: SizeConfig.blockSizeVertical! * 10,)),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-                      child: Text('${Utils.getTranslatedText(context,'follow_us')}',
-                        style: TextStyle(color: white,
-                            fontSize: SizeConfig.blockSizeVertical! * 2.3,
-                            fontWeight: FontWeight.bold),),
-                    ),
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                          onPressed: (){
-
-                          }, icon: const Icon(Icons.whatsapp),
-                          iconSize: SizeConfig.blockSizeVertical! * 3,color: white,),
-                        IconButton(
-                          onPressed: (){
-
-                          }, icon: const Icon(Icons.email),
-                          iconSize: SizeConfig.blockSizeVertical! * 3,color: white,),
-                        IconButton(
-                          onPressed: (){
-
-                          }, icon: const Icon(Icons.facebook),
-                          iconSize: SizeConfig.blockSizeVertical! * 3,color: white,),
-                      ],
-                    ),
-                     SizedBox(height: SizeConfig.blockSizeVertical! * 1.5,),
+                    SizedBox(height: SizeConfig.blockSizeVertical! * 2,),
                   ],
                 ),
               ),
@@ -305,7 +245,7 @@ class MainScreen extends StatelessWidget {
       return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
           child: LanguageSheet(langCode: code,langCubit: langCubit,));
-    },
+       },
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(

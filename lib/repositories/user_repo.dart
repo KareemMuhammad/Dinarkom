@@ -53,6 +53,7 @@ class UserRepository{
   }
 
   Future<bool> logOutResponse(String token)async{
+    debugPrint(token);
    Response response = await _userHttpService.logoutService(token);
    if(response.statusCode == 200){
      debugPrint(jsonDecode(response.body).toString());

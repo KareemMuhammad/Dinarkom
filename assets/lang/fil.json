@@ -58,7 +58,7 @@
   "principle_header": "Prinsipyo",
   "terms_title": "Mga Tuntunin at Kundisyon",
   "agree": "Mahiyang",
-  "terms": "Minamahal na DINARKOM Customer:\nAng sumusunod na Mga Tuntunin ng Serbisyo (\"TOS\") ay isang legal na kasunduan sa pagitan mo o ng tagapag-empleyo o iba pang entity kung saan ka pumapasok sa kasunduang ito (\"ikaw\" o \"Customer\") at DINARKOM (tulad ng tinukoy na termino sa Bahagi V Seksyon 24 sa ibaba) at itinakda ang mga karapatan at obligasyon kaugnay ng anumang Nilalaman na lisensyado mo.\nPakibisitang muli ang TOS na ito kapag bumili ka ng anumang mga lisensya ng Content. Inilalaan ng DINARKOM ang karapatang baguhin ang TOS anumang oras sa sarili nitong pagpapasya. Bago maging epektibo ang mga naturang pagbabago, gagamit ang DINARKOM ng mga makatwirang pagsisikap upang ipaalam sa iyo ang anumang naturang pagbabago. Ang nasabing paunawa ay maaaring gawin sa pamamagitan ng email sa email address na nasa file sa iyong DINARKOM account, isang anunsyo sa pahinang ito, iyong login page, at/o sa pamamagitan ng iba pang paraan. Malalapat lang ang mga pagbabago sa TOS na ito sa mga inaasahang pagbili (kabilang ang anumang mga awtomatikong pag-renew). Sa pamamagitan ng paglilisensya sa Nilalaman kasunod ng anumang naturang mga pagbabago, sumasang-ayon kang sumailalim sa TOS bilang binago.",
+  "terms": "Minamahal na Dinarkoom Customer:\nAng sumusunod na Mga Tuntunin ng Serbisyo (\"TOS\") ay isang legal na kasunduan sa pagitan mo o ng tagapag-empleyo o iba pang entity kung saan ka pumapasok sa kasunduang ito (\"ikaw\" o \"Customer\") at DINARKOM (tulad ng tinukoy na termino sa Bahagi V Seksyon 24 sa ibaba) at itinakda ang mga karapatan at obligasyon kaugnay ng anumang Nilalaman na lisensyado mo.\nPakibisitang muli ang TOS na ito kapag bumili ka ng anumang mga lisensya ng Content. Inilalaan ng DINARKOM ang karapatang baguhin ang TOS anumang oras sa sarili nitong pagpapasya. Bago maging epektibo ang mga naturang pagbabago, gagamit ang DINARKOM ng mga makatwirang pagsisikap upang ipaalam sa iyo ang anumang naturang pagbabago. Ang nasabing paunawa ay maaaring gawin sa pamamagitan ng email sa email address na nasa file sa iyong DINARKOM account, isang anunsyo sa pahinang ito, iyong login page, at/o sa pamamagitan ng iba pang paraan. Malalapat lang ang mga pagbabago sa TOS na ito sa mga inaasahang pagbili (kabilang ang anumang mga awtomatikong pag-renew). Sa pamamagitan ng paglilisensya sa Nilalaman kasunod ng anumang naturang mga pagbabago, sumasang-ayon kang sumailalim sa TOS bilang binago.",
   "account": "Aking Account",
   "home": "Home Page",
   "relevant": "Ilgay kamag-anak",
@@ -66,5 +66,14 @@
   "message": "Mensahe",
   "relation": "Relasyon",
   "update": "Update",
-  "payment": "Piliin kung sino ang magbabayad"
+  "payment": "Piliin kung sino ang magbabayad",
+  "delete_account": "Tanggalin ang account",
+  "delete_hint": "sigurado ka ba, mabubura ng pagtanggal ng iyong account ang lahat ng iyong data?",
+  "relevant_hint": "Hindi ka pa nagdagdag ng anumang nauugnay",
+  "purchases_hint": "Hindi ka pa nakakabili",
+  "winners_hint": "Wala pang nanalo",
+  "checkout": "Tignan mo",
+  "error_buy": "Hindi mo na mabibili ang larawang ito muli",
+  "relevant_added": "Idinagdag ang iyong nauugnay",
+  "invoice_hint":"Naipadala na ang invoice sa iyong email"
 }

@@ -1,12 +1,11 @@
 import 'package:dinarkom/model/relevant_model.dart';
 import 'package:dinarkom/repositories/user_repo.dart';
-import 'package:dinarkom/screens/bar_screens/add_releveant_screen.dart';
 import 'package:dinarkom/screens/bar_screens/update_relevant_screen.dart';
 import 'package:dinarkom/utils/constants.dart';
 import 'package:dinarkom/utils/shared.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
-import '../nav_screens/terms_screen.dart';
 
 class MyRelationsScreen extends StatefulWidget {
   final String token;
@@ -77,7 +76,16 @@ class _MyRelationsScreenState extends State<MyRelationsScreen> {
                           trailing:  Icon(Icons.update,color: light,),
                         ),
                       );
-                    }) : Center(child: footer('You didn\'t have any relevants yet'));
+                    }) : Center(child: Column(
+                      children: [
+                        SizedBox(height: SizeConfig.blockSizeVertical! * 2,),
+                        Image.asset('assets/empty.png',
+                            height: SizeConfig.blockSizeVertical! * 25,
+                        width: SizeConfig.blockSizeVertical! * 25,),
+                        SizedBox(height: SizeConfig.blockSizeVertical! * 1,),
+                        footer('${Utils.getTranslatedText(context,'relevant_hint')}'),
+                      ],
+                    ));
               },
             ),
           ),

@@ -1,14 +1,16 @@
+import 'dart:math';
+
 import 'package:another_flushbar/flushbar.dart';
-import 'package:dinarkom/model/ads_model.dart';
 import 'package:dinarkom/model/digital_photo_model.dart';
 import 'package:dinarkom/utils/language_delegate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'shared.dart';
 import 'package:intl/intl.dart' as intl;
-import 'dart:ui' as ui;
+
 enum ScreenSize { small, medium, large }
 
 class Utils{
@@ -17,12 +19,13 @@ class Utils{
   static const List<String> mySwiper = ['assets/ikea_logo.png','assets/download.png'];
   static const DigitalPhoto dummyDigitalPhoto = DigitalPhoto.dummy(id: 0, smallPaidImage: '',
        totalCount: 150, totalSales: 100, expire: 0, imagePrice: 1);
-  // static const AppUser dummyUser = AppUser.dummy(id: '', nationalID: '',
-  //     name: '', email: '', phone: '', anotherPhone: '', position: false);
+
   static const String assetsUtil = 'https://www.dinarkoom.com/landAssest/images/images/';
 
   static formatPrice(double price) => '\$ ${price.toStringAsFixed(2)}';
   static formatDate(DateTime date) => DateFormat.yMd().format(date);
+
+  static final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 
 
@@ -79,7 +82,42 @@ static String? getTranslatedText(BuildContext context,String key){
     return intl.Bidi.detectRtlDirectionality(text);
   }
 
-  static showSnack(String text,String title,BuildContext context,Color color)async{
+  static Future showNormalNotification(String title) async {
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    const IOSInitializationSettings initializationSettingsIOS =
+     IOSInitializationSettings(
+        requestAlertPermission: false,
+        requestBadgePermission: false,
+        requestSoundPermission: false,
+        );
+
+    const MacOSInitializationSettings initializationSettingsMacOS =
+    MacOSInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+    );
+
+    const InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+      macOS: initializationSettingsMacOS,
+    );
+
+    await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: (String? payload) async {
+
+        });
+    var android = AndroidNotificationDetails('Dinarkoom Winner', 'Dinarkoom', title,playSound: true,priority: Priority.high,importance: Importance.max,);
+    var iOS = const IOSNotificationDetails(presentSound: true,subtitle: 'Dinarkoom');
+    var platform = NotificationDetails(iOS: iOS,android: android);
+
+    await _flutterLocalNotificationsPlugin.schedule(Random().nextInt(10000), title,
+        'Dinarkoom', DateTime.now().add(const Duration(seconds: 1)),platform);
+  }
+
+  static Future showSnack(String text,String title,BuildContext context,Color color)async{
     await Flushbar(
       showProgressIndicator: true,
       progressIndicatorBackgroundColor: Colors.blueGrey,
@@ -99,7 +137,6 @@ static String? getTranslatedText(BuildContext context,String key){
         ,int.parse(date.split('-')[2]),int.parse(time.split(':')[0]),
         int.parse(time.split(':')[1]),int.parse(time.split(':')[2])).millisecondsSinceEpoch;
   }
-
 }
 
 class Translations {

@@ -220,7 +220,7 @@ class _AddRelevantScreenState extends State<AddRelevantScreen> {
                      relationController.clear();
                    });
                    Utils.showSnack(
-                       'Your relevant has been added', 'Done', context,
+                       '${Utils.getTranslatedText(context, 'relevant_added')}', 'Done', context,
                        black);
                  }else{
                    Utils.showSnack(

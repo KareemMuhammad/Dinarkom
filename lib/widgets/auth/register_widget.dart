@@ -1,4 +1,5 @@
 import 'package:dinarkom/blocs/register_bloc/register_cubit.dart';
+import 'package:dinarkom/screens/auth/login_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:dinarkom/utils/constants.dart';
 import 'package:dinarkom/utils/shared.dart';
@@ -35,11 +36,11 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   Widget build(BuildContext context) {
     final RegisterCubit registerCubit = BlocProvider.of<RegisterCubit>(context);
    return BlocConsumer<RegisterCubit,RegisterState>(
-        listener: (ctx,state){
+        listener: (ctx,state)async{
           if(state is RegisterFailed){
             Utils.showSnack('', state.message, context, black);
           }else if (state is RegisterSuccessful) {
-            Utils.showSnack('', state.message, ctx, black);
+           await Utils.showSnack('', state.message, ctx, black);
             emailController.clear();
             nameController.clear();
             nationalIdController.clear();
@@ -47,6 +48,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
             confirmPasswordController.clear();
             phoneController.clear();
             addPhoneController.clear();
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)
+            => const LoginScreen()));
           }
         },
         builder: (context,state) {

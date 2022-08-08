@@ -8,7 +8,7 @@ class WinnersCubit extends Cubit<WinnersState>{
 
   WinnersCubit({this.winnersRepo}) : super(WinnersInitial());
 
-  List<WinnersModel>? _winners;
+  List<WinnersModel>? _winners = [];
 
   void getWinners()async{
     emit(WinnersLoading());

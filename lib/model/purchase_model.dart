@@ -1,3 +1,5 @@
+import 'package:dinarkom/utils/constants.dart';
+
 class PurchaseModel {
   bool? status;
   String? errorNumber;
@@ -46,14 +48,8 @@ class Purchase {
   int? totalPrice;
   int? status;
   String? updatedAt;
-  Null? paymentid;
-  Null? result;
-  Null? ref;
-  Null? tranid;
-  Null? postdate;
-  Null? trackid;
-  int? knetStatuse;
-  Null? createdAt;
+  String? paymentid;
+  String? image;
 
   Purchase(
       {this.id,
@@ -70,13 +66,8 @@ class Purchase {
         this.status,
         this.updatedAt,
         this.paymentid,
-        this.result,
-        this.ref,
-        this.tranid,
-        this.postdate,
-        this.trackid,
-        this.knetStatuse,
-        this.createdAt});
+        this.image
+});
 
   Purchase.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -92,14 +83,8 @@ class Purchase {
     totalPrice = json['totalPrice'];
     status = json['status'];
     updatedAt = json['updated_at'];
-    paymentid = json['paymentid'];
-    result = json['result'];
-    ref = json['ref'];
-    tranid = json['tranid'];
-    postdate = json['postdate'];
-    trackid = json['trackid'];
-    knetStatuse = json['knetStatuse'];
-    createdAt = json['created_at'];
+    paymentid = json['paymentid'] ?? '';
+    image = Utils.assetsUtil + json['image']['paiedImage'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -118,13 +103,6 @@ class Purchase {
     data['status'] = this.status;
     data['updated_at'] = this.updatedAt;
     data['paymentid'] = this.paymentid;
-    data['result'] = this.result;
-    data['ref'] = this.ref;
-    data['tranid'] = this.tranid;
-    data['postdate'] = this.postdate;
-    data['trackid'] = this.trackid;
-    data['knetStatuse'] = this.knetStatuse;
-    data['created_at'] = this.createdAt;
     return data;
   }
 }

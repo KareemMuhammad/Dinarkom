@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           BlocConsumer<PaymentCubit,PaymentState>(
                                             listener: (context,state)async{
                                               if(state is PaymentSuccessful) {
-                                               var result = await showModalBottomSheet(
+                                               await showModalBottomSheet(
                                                   context: context,
                                                   builder: (_) {
                                                     return BackdropFilter(
@@ -211,18 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               .circular(30))
                                                   ),
                                                 );
-                                               if(result is String){
-                                                 Navigator.push(
-                                                   context,
-                                                   PageTransition(
-                                                       type: PageTransitionType
-                                                           .rightToLeft,
-                                                       duration: const Duration(
-                                                           milliseconds: 400),
-                                                       child: KeyNetScreen(
-                                                           url: paymentCubit
-                                                               .knetUrl)),);
-                                               }
+
                                               }
                                               },
                                             builder: (context,state) {
@@ -231,11 +220,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                  color: greyOpacity,size: 20,))
                                               :GestureDetector(
                                                 onTap: ()async{
-                                                    if(loginCubit.currentUser != null) {
-                                                      if(loginCubit.currentToken != null
-                                                      && loginCubit.currentToken!.isNotEmpty) {
+                                                    if(loginCubit.currentUser!.id != null) {
+                                                      if(loginCubit.getToken.isNotEmpty
+                                                      && loginCubit.getToken.isNotEmpty) {
                                                         await paymentCubit.checkUserPayment(
-                                                            loginCubit.currentToken!);
+                                                            loginCubit.getToken);
                                                       }else{
                                                         Navigator.pushReplacement(context,
                                                           PageTransition(
@@ -278,7 +267,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                   child: Padding(
                                                     padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeVertical! * 4,
-                                                        vertical: SizeConfig.blockSizeVertical! * 0.8),
+                                                        vertical:    AppLocale.of(context).currentCode == 'ar' ||
+                                                            AppLocale.of(context).currentCode == 'ur'?
+                                                        SizeConfig.blockSizeVertical! * 0.8:
+                                                        SizeConfig.blockSizeVertical! * 0.9),
                                                     child: Text('${Utils.getTranslatedText(context,'buy')}',
                                                       style:  TextStyle(fontSize: SizeConfig.blockSizeVertical! * 1.8,
                                                         color: Colors.grey[700],
@@ -293,13 +285,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                           AppLocale.of(context).currentCode == 'ar' ||
                                               AppLocale.of(context).currentCode == 'ur'?
                                           SizedBox(height: SizeConfig.blockSizeVertical! * 0.5,):
-                                          SizedBox(height: SizeConfig.blockSizeVertical! * 0.9,),
+                                          SizedBox(height: SizeConfig.blockSizeVertical! * 1.2,),
                                           Expanded(
                                             child: Text('${Utils.getTranslatedText(context,'sales')} ${state.digitalPhoto!.totalSales!}',
                                               style: TextStyle(fontSize: AppLocale.of(context).currentCode == 'ar' ||
                                                   AppLocale.of(context).currentCode == 'ur'?
-                                                   SizeConfig.blockSizeVertical! * 2
-                                                  :SizeConfig.blockSizeVertical! * 2.3, color: white,
+                                                   SizeConfig.blockSizeVertical! * 1.9
+                                                  :SizeConfig.blockSizeVertical! * 2.1, color: white,
                                                 fontFamily: 'Sequel Sans',
                                                 shadows: [
                                                   BoxShadow(
@@ -332,9 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     final list = [state.adsModel!.leftImage,state.adsModel!.rightImage];
                   return Padding(
                     padding: EdgeInsets.fromLTRB(SizeConfig.blockSizeVertical! * 1.2,
-                        AppLocale.of(context).currentCode == 'ar' ||
-                            AppLocale.of(context).currentCode == 'ur'?
-                        SizeConfig.blockSizeVertical! * 1 :0
+                        0
                         ,SizeConfig.blockSizeVertical! * 1.2,0),
                     child: Card(
                       elevation: 90,

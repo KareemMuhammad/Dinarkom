@@ -23,7 +23,7 @@ class AppUser{
      email: json['email'] as String,
      phone: json['phone'] as String,
      anotherPhone: json['anotherPhone'] == null ? '' : json['anotherPhone'] as String,
-     position: json['position'] as String,
+     position: json['position'] == null ? '' : json['position'] as String,
      token: json['token'] == null ? '' : json['token'] as String,
 
    );

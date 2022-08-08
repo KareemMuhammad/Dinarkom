@@ -3,7 +3,6 @@ import 'package:dinarkom/model/payment_model.dart';
 import 'package:dinarkom/widgets/dialogs/terms_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-
 import '../../screens/nav_screens/knet_screen.dart';
 import '../../utils/constants.dart';
 import '../../utils/shared.dart';
@@ -28,12 +27,14 @@ class _ChoosePaymentUserState extends State<ChoosePaymentUser> {
       child: Column(mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 20,),
+          widget.users.isNotEmpty?
           Row(mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
                 onPressed: (){
                   Navigator.pop(context);
-                }, icon: const Icon(Icons.close),
+                },
+                icon: const Icon(Icons.close),
                 color: white,
               ),
 
@@ -43,9 +44,10 @@ class _ChoosePaymentUserState extends State<ChoosePaymentUser> {
                   textAlign: TextAlign.center,),
               ),
             ],
-          ),
+          ) : const SizedBox(),
           const SizedBox(height: 40,),
-          Expanded(
+        widget.users.isNotEmpty?
+        Expanded(
             child: ListView.builder(
               itemCount: widget.users.length,
               itemBuilder: (BuildContext context, int index) {
@@ -62,28 +64,41 @@ class _ChoosePaymentUserState extends State<ChoosePaymentUser> {
                     onChanged: (value){
                       setState(() {
                         selectedIndex = index + 1;
-                        print(selectedIndex);
                       });
                     });
               },
             ),
-          ),
+          ) : Center(child: Text('${Utils.getTranslatedText(context,'error_buy')}')),
+
+          widget.users.isEmpty?  const SizedBox(height: 50,) : const SizedBox(),
+
           ElevatedButton(
             onPressed: () async{
-              dynamic result = await showDialog(
-                  context: context,
-                  builder: (_) =>
-                      Dialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0)),
-                          backgroundColor: greyOpacity,
-                          child: const TermsDialog()));
-              if (result == 'pay') {
-                String url = await widget.paymentCubit.pay(widget.token,
-                    widget.users[selectedIndex - 1].id!);
-                if(url != null) {
-                  Navigator.pop(context,url);
+              if(widget.users.isNotEmpty) {
+                dynamic result = await showDialog(
+                    context: context,
+                    builder: (_) =>
+                        Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                            backgroundColor: greyOpacity,
+                            child: const TermsDialog()));
+                if (result == 'pay') {
+                  String url = await widget.paymentCubit.pay(widget.token,
+                      widget.users[selectedIndex - 1].id!);
+                  if(url.contains('http')){
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          duration: const Duration(milliseconds: 400),
+                          child: KeyNetScreen(
+                              url: widget.paymentCubit.knetUrl)),);
+                  }
                 }
+              }else{
+                Navigator.pop(context);
               }
             },
             style: ButtonStyle(
@@ -96,7 +111,9 @@ class _ChoosePaymentUserState extends State<ChoosePaymentUser> {
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('${Utils.getTranslatedText(context,'validate_invoice')}',
+              child: Text(widget.users.isNotEmpty?
+              '${Utils.getTranslatedText(context,'validate_invoice')}'
+                : '${Utils.getTranslatedText(context,'back')}',
                 style:  TextStyle(fontSize: 18,color: Colors.grey[700],fontWeight: FontWeight.bold),),
             ),
 
